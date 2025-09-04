@@ -18,6 +18,67 @@
     }
   ],
   "paths": {
+    "/databases/{database}/schemas/{schema}/agents/{agent}:run": {
+      "post": {
+        "operationId": "runAgent",
+        "summary": "Run a Cortex Agent (Agent object)",
+        "description": "Runs an existing Cortex Agent object and streams results.",
+        "parameters": [
+          { "name": "database", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "schema",   "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "agent",    "in": "path", "required": true, "schema": { "type": "string" } },
+          { "$ref": "#/components/parameters/AcceptHeader" }
+        ],
+        "security": [ { "bearerAuth": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [ "messages" ],
+                "properties": {
+                  "model": { "type": "string", "description": "Optional override of agent model" },
+                  "response_instruction": { "type": "string" },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [ "role", "content" ],
+                      "properties": {
+                        "role": { "type": "string", "enum": [ "system", "user", "assistant" ] },
+                        "content": {
+                          "oneOf": [
+                            { "type": "string" },
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "required": [ "type" ],
+                                "properties": {
+                                  "type": { "type": "string", "enum": [ "text", "image" ] },
+                                  "text": { "type": "string" },
+                                  "image_url": { "type": "object", "properties": { "url": { "type": "string" } } }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "4XX": { "description": "Client error" },
+          "5XX": { "description": "Server error" }
+        }
+      }
+    },
     "/cortex/agent:run": {
       "post": {
         "operationId": "runCortexAgent",
