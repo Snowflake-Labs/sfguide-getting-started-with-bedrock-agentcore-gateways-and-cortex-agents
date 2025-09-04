@@ -577,7 +577,7 @@ if st.sidebar.button("Save settings"):
 account_url = st.text_input("Snowflake account URL (e.g., myacct.snowflakecomputing.com)")
 db_input = st.text_input("Database (for Agent)", value=sf_database)
 schema_input = st.text_input("Schema (for Agent)", value=sf_schema)
-agent_input = st.text_input("Agent name", value="TESTAGENTUI")
+agent_input = st.text_input("Agent name", value="MOVIESAGENT")
 question = st.text_area("Your question", height=100, placeholder="e.g., Average rating by title? Monthly revenue trend?")
 
 # Action
