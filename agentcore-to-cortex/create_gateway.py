@@ -36,8 +36,8 @@ def create_gateway():
             authorizer_config=cognito_response["authorizer_config"]
         )
         
-        # Step 3: Add Snowflake Cortex target with INLINE OpenAPI schema
-        print("🎯 Adding Snowflake Cortex target with inline schema...")
+        # Step 3: Add Snowflake Cortex target with INLINE OpenAPI schema (includes new Agents REST path)
+        print("🎯 Adding Snowflake Cortex target with inline schema (new runAgent op)...")
         target_response = client.create_mcp_gateway_target(
             gateway=gateway_response,
             name="SnowflakeCortexTarget",
@@ -58,6 +58,7 @@ def create_gateway():
         print(f"Gateway ID: {gateway_response['gatewayId']}")
         print(f"Gateway URL: {gateway_response['gatewayUrl']}")
         print(f"Target ID: {target_response.get('targetId', 'N/A')}")
+        print("Tool name (default): SnowflakeCortexTarget___runAgent")
         
         # Save to settings.json
         settings = {
@@ -78,4 +79,3 @@ def create_gateway():
 
 if __name__ == "__main__":
     create_gateway()
-
