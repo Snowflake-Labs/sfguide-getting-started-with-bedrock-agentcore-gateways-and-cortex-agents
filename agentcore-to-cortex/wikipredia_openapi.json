@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Wikipedia API",
+    "description": "Wikipedia REST API for fetching article summaries and content",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://en.wikipedia.org/api/rest_v1",
+      "description": "Wikipedia REST API v1"
+    }
+  ],
+  "security": [
+    {
+      "UserAgent": []
+    }
+  ],
+  "paths": {
+    "/page/summary/{title}": {
+      "get": {
+        "operationId": "getPageSummary",
+        "summary": "Get page summary",
+        "description": "Get a summary of a Wikipedia page including title, extract, and basic information",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "description": "Page title to get summary for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "Page title"
+                    },
+                    "extract": {
+                      "type": "string",
+                      "description": "Plain text extract of the page"
+                    },
+                    "extract_html": {
+                      "type": "string",
+                      "description": "HTML extract of the page"
+                    },
+                    "thumbnail": {
+                      "type": "object",
+                      "properties": {
+                        "source": {
+                          "type": "string"
+                        },
+                        "width": {
+                          "type": "integer"
+                        },
+                        "height": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "lang": {
+                      "type": "string",
+                      "description": "Language code"
+                    },
+                    "content_urls": {
+                      "type": "object",
+                      "properties": {
+                        "desktop": {
+                          "type": "object",
+                          "properties": {
+                            "page": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "mobile": {
+                          "type": "object",
+                          "properties": {
+                            "page": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page not found"
+          }
+        }
+      }
+    },
+    "/page/media-list/{title}": {
+      "get": {
+        "operationId": "getPageMedia",
+        "summary": "Get page media",
+        "description": "Get media files associated with a page",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "required": true,
+            "description": "Page title to get media for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page media",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "section_id": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "UserAgent": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "User-Agent",
+        "description": "Required User-Agent header for Wikipedia API compliance"
+      }
+    }
+  }
+}
