@@ -1,0 +1,5 @@
+boto3>=1.34.0
+bedrock-agentcore-starter-toolkit>=1.0.0
+streamlit>=1.28.0
+requests>=2.31.0
+pandas>=2.0.0
